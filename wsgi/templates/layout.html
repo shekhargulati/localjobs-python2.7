@@ -31,6 +31,7 @@
       <li class="active"><a href="{{url_for('index')}}">Home</a></li>
       {% if g.user.is_authenticated()%}
       <li><a href="{{url_for('create_job')}}">Create New Job</a></li>
+      <li><a href="{{url_for('search')}}">Search(with Near)</a></li>
       {% endif %}
     </ul>
 

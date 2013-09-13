@@ -3,6 +3,8 @@ from flask import render_template , request , flash , redirect , url_for ,g , js
 from models import Users
 from flask.ext.login import login_user , logout_user , current_user , login_required
 from bson.objectid import ObjectId
+import json
+from bson import json_util
 from datetime import datetime
 from pygeocoder import Geocoder
 
@@ -111,3 +113,36 @@ def create_job():
 	job_id = db.jobs.insert(job , w=1)
 	flash(u'Job created with id %s' % job_id)
 	return redirect(url_for('create_job'))
+
+@app.route('/jobs/search')
+@login_required
+def search():
+	return render_template('search.html' , title="Search Jobs")
+
+@app.route('/api/jobs/<skills>')
+@login_required
+def jobs_near_with_skills(skills):
+	lat = float(request.args.get('lat'))
+	lon = float(request.args.get('lng'))
+
+	results = db.jobs.find({"skills" : {"$in" : skills.split(',')} , "lngLat" : { "$near" : [lon,lat]}}).limit(5)
+	jobs = []
+	for result in results:
+		jobs.append(result)
+
+	return json_response(jobs)
+
+@app.route('/api/jobs')
+@login_required
+def jobs():
+	jobs = db.jobs.find().limit(25)
+	return json.dumps({'jobs':list(jobs)},default=json_util.default)
+
+@app.route('/api/jobs/id/<job_id>')
+@login_required
+def job(job_id):
+	job = db.jobs.find_one({"_id":ObjectId(str(job_id))})
+	return json.dumps({'job':job},default=json_util.default)
+
+def json_response(data):
+	return Response(json.dumps({'jobs':data},default=json_util.default),mimetype="application/json")
