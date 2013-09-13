@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+
+	{% for doc in jobs %}
+		<dl class="dl-horizontal">
+			<dt>Job Title</dt>
+			<dd>{{  doc.title }} at {{ doc.company.name}}</dd>
+			<dt>Job Description</dt>
+			<dd>
+				<p class="small">{{ doc.description }}</p>
+			</dd>
+			<dt>Company Website</dt>
+			<dd>
+				<p class="small"><a href="{{ doc.company.website }}" target="_blank">{{ doc.company.website }}</a></p>
+			</dd>
+			<dt>Skills</dt>
+			<dd>
+				<p class="small">{{ doc.skills }}</a></p>
+			</dd>
+			<dt>
+				Address
+			</dt>
+			<dd>
+				<address>
+					{{ doc.location}}
+					<abbr title="Phone">
+					<a href="mailto:{{doc.company.contact.email}}">{{doc.company.contact.email}}</a>
+				</address>
+			</dd>
+			{% if doc.distance%}
+			<dt>Distance</dt>
+			<dd>
+				<p class="small">{{doc.distance}} Km</p>
+			</dd>
+			{% endif %}
+		</dl>
+	{% endfor %}
+{% endblock %}

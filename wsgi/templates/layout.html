@@ -32,6 +32,7 @@
       {% if g.user.is_authenticated()%}
       <li><a href="{{url_for('create_job')}}">Create New Job</a></li>
       <li><a href="{{url_for('search')}}">Search(with Near)</a></li>
+      <li><a href="{{url_for('geonear_search_form')}}">Search(with GeoNear)</a></li>
       {% endif %}
     </ul>
 

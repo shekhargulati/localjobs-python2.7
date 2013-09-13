@@ -7,6 +7,7 @@ import json
 from bson import json_util
 from datetime import datetime
 from pygeocoder import Geocoder
+from bson.son import SON
 
 @app.before_request
 def before_request():
@@ -146,3 +147,50 @@ def job(job_id):
 
 def json_response(data):
 	return Response(json.dumps({'jobs':data},default=json_util.default),mimetype="application/json")
+
+@app.route('/jobs/search-geonear')
+@login_required
+def geonear_search_form():
+	return render_template('search-geonear.html' , title="GeoNear Search Jobs")
+
+
+@app.route('/jobs/search-geonear/<skills>')
+@login_required
+def geonear_search(skills):
+	lat = float(request.args.get('lat'))
+	lon = float(request.args.get('lng'))
+	docs = db.command(SON([
+		("geoNear" , "jobs"),
+  		("near" , [lon , lat]),
+  		("query", {"skills" : {"$in" : skills.split(',')}}),
+  		("limit" , 5),
+  		("distanceMultiplier" , 111)
+	]))
+
+	jobs = []
+
+	for result in docs['results']:
+		job = toJob(result)
+		jobs.append(job)
+
+	return render_template('showall.html',title='All Jobs', jobs=jobs)
+
+
+def toJob(doc):
+
+	return {
+		"title" : doc['obj']['title'],
+		"description" :doc['obj']['description'],
+		"skills" : [str(skill) for skill in doc['obj']['skills']],
+		"location" :doc['obj']['location'],
+		"createdOn" : doc['obj']['createdOn'],
+		"distance" : doc['dis'],
+		"company" :{
+			"name" : doc['obj']['company']["name"],
+			"website" : doc['obj']['company']["website"],
+			"contact" :{
+				"email" : doc['obj']['company']['contact']['email']
+			}
+		}
+
+	}
