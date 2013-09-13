@@ -7,7 +7,7 @@ $ rhc app create localjobs python-2.7 mongodb-2.2
 2. Pull the source code from git repository
 ```
 $ cd localjobs
-$ git remote add upstream -m master https://github.com/shekhargulati/localjobs-python-2.7.git
+$ git remote add upstream -m master https://github.com/shekhargulati/localjobs-python2.7.git
 $ git pull -s recursive -X theirs upstream master
 ```
 
