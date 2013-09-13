@@ -3,6 +3,8 @@ from flask import render_template , request , flash , redirect , url_for ,g , js
 from models import Users
 from flask.ext.login import login_user , logout_user , current_user , login_required
 from bson.objectid import ObjectId
+from datetime import datetime
+from pygeocoder import Geocoder
 
 @app.before_request
 def before_request():
@@ -68,3 +70,44 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index')) 
+
+
+@app.route('/jobs/new' , methods=['GET'])
+@login_required
+def job_form():
+	return render_template('job.html' , title="Create New Job")
+
+@app.route('/jobs/new' , methods=['POST'])
+@login_required
+def create_job():
+	title = request.form['title']
+	description = request.form['description']
+	skills = [skill.strip().lower() for skill in request.form['skills'].split(',')]
+	location = request.form['location']
+	createdOn = datetime.utcnow()
+	companyName = request.form["companyName"]
+	companyWebSite = request.form["companyWebsite"]
+	companyContactEmail = request.form["companyContactEmail"]
+	companyContactTelephone = request.form["companyContactTelephone"]
+	results = Geocoder.geocode(location)
+	lngLat = [results[0].coordinates[1],results[0].coordinates[0]]
+
+	job = {
+		"title" : title,
+		"description" : description,
+		"skills" : skills,
+		"location" : location,
+		"lngLat" : lngLat,
+		"createdOn" : createdOn,
+		"company" : {
+			"name" : companyName,
+			"website" : companyWebSite,
+			"contact" :{
+				"email": companyContactEmail,
+				"telephone" : companyContactTelephone
+			}
+		}
+	}
+	job_id = db.jobs.insert(job , w=1)
+	flash(u'Job created with id %s' % job_id)
+	return redirect(url_for('create_job'))

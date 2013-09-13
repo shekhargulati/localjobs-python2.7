@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Create new Job</h2>
+
+		<form class="form-horizontal" role="form" method="POST" action="/jobs/new">
+			  <div class="form-group">
+			    <label for="title" class="col-lg-2 control-label">Job Title</label>
+			    <div class="col-lg-6">
+			      <input type="text" class="form-control" id="title" name="title" placeholder="Enter Job Title" required>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="description" class="col-lg-2 control-label">Job Description</label>
+			    <div class="col-lg-6">
+			    	<textarea class="form-control" rows="3" id="description" name="description" placeholder="Enter Job Description" required></textarea>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="skills" class="col-lg-2 control-label">Skills</label>
+			    <div class="col-lg-6">
+			    	<textarea class="form-control" rows="3" id="skills" name="skills" placeholder="Enter Comma seperated list of Skills" required></textarea>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="location" class="col-lg-2 control-label">Job Location</label>
+			    <div class="col-lg-6">
+			    	<textarea class="form-control" rows="3" id="location" name="location" placeholder="Enter Job Location" required></textarea>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="companyName" class="col-lg-2 control-label">Company Name</label>
+			    <div class="col-lg-6">
+			      <input type="text" class="form-control" id="companyName" name="companyName" placeholder="Enter Company Name" required>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="companyWebsite" class="col-lg-2 control-label">Company Website</label>
+			    <div class="col-lg-6">
+			      <input type="url" class="form-control" id="companyWebsite" name="companyWebsite" placeholder="Enter Company Website" required>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="companContactEmail" class="col-lg-2 control-label">Company Contact Email</label>
+			    <div class="col-lg-6">
+			      <input type="email" class="form-control" id="companyContactEmail" name="companyContactEmail" placeholder="Enter Company Contact Email" required>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="companyContactTelephone" class="col-lg-2 control-label">Company Contact Telephone</label>
+			    <div class="col-lg-6">
+			      <input type="tel" class="form-control" id="companyContactTelephone" name="companyContactTelephone" placeholder="Enter Company Contact Telephone" required>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <div class="col-lg-offset-2 col-lg-6">
+			      <button type="submit" class="btn btn-success btn-lg">Create New Job</button>
+			    </div>
+			  </div>
+	</form>
+
+{% endblock %}
