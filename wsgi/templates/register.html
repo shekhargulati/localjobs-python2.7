@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Register for LocalJobs Account</h2>
+<form class="form-horizontal" role="form" action="" method="POST">
+  <div class="form-group">
+    <label for="email" class="col-lg-2 control-label">Email</label>
+    <div class="col-lg-4">
+      <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="password" class="col-lg-2 control-label">Password</label>
+    <div class="col-lg-4">
+      <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="linkedinUrl" class="col-lg-2 control-label">Linkedin Profile Url</label>
+    <div class="col-lg-4">
+      <input type="url" class="form-control" name="linkedinUrl" id="linkedinUrl" placeholder="Linkedin Profile Url">
+    </div>
+  </div>
+	
+<div class="form-group">
+    <label for="skills" class="col-lg-2 control-label">Skillset</label>
+    <div class="col-lg-4">
+      <textarea class="form-control" id="textarea" name="skills" id="skills" rows="6" placeholder="Comma separated list of skills" required></textarea>
+    </div>
+  </div>
+
+  
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <button type="submit" class="btn btn-success btn-lg">Register</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
